@@ -99,7 +99,7 @@ text by hand — ask your AI assistant (GitHub Copilot Chat, in the Codespace's
 left sidebar) to make the changes for you. For example:
 
 > Replace every "FIRSTNAME LASTNAME" placeholder in this site with my name,
-> "Jane Smith." Update the LinkedIn and GitHub links in index.html's social
+> "Michael Cruz." Update the LinkedIn and GitHub links in index.html's social
 > box to my profiles: <your LinkedIn URL> and <your GitHub URL>.
 
 Things to personalize:
