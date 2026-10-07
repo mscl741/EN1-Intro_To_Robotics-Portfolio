@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Project 9: Programming with sensors</title>
+    <link rel="stylesheet" href="./project.css">
+</head>
+<body>
+
+    <!-- Header and Navigation Section -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="./index.html" class="active">Home</a>
+        </nav>
+    </header>
+
+    <!-- Project Information -->
+    <div class="proj-container">
+
+        <h1 class='proj-header'>Project Portfolio</h1>
+
+        <h2 class='proj-header'>Project 9: Programming with sensors</h2>
+
+        <div class="proj-desc">
+            <p>This program is for the color sensor. Showing the color sensor different colors changes the direction of the motors, either individually or together.</p>
+        </div>
+
+        <div class="proj-code">
+            <h3>Code:</h3>
+            <pre><code># Setup: large motor on port F, medium motor on port E,
+# and Color Sensor on port D.
+from hub import port
+import runloop
+import motor
+import color
+import color_sensor
+
+MOTOR_SPEED = 300  # Speed in degrees per second.
+
+async def main():
+    # Start both motors spinning forward.
+    motor.run(port.F, MOTOR_SPEED)
+    motor.run(port.E, MOTOR_SPEED)
+
+    # Remember the last color so commands are sent only when it changes.
+    last_color = color.UNKNOWN
+
+    # Keep checking the Color Sensor.
+    while True:
+        detected_color = color_sensor.color(port.D)
+
+        # Change motor directions only when a new color appears.
+        if detected_color != last_color:
+            if detected_color == color.GREEN:
+                motor.run(port.F, MOTOR_SPEED)
+                motor.run(port.E, MOTOR_SPEED)
+
+            elif detected_color == color.YELLOW:
+                motor.run(port.F, MOTOR_SPEED)
+                motor.run(port.E, -MOTOR_SPEED)
+
+            elif detected_color == color.RED:
+                motor.run(port.F, -MOTOR_SPEED)
+                motor.run(port.E, MOTOR_SPEED)
+
+            elif detected_color == color.BLACK:
+                motor.run(port.F, -MOTOR_SPEED)
+                motor.run(port.E, -MOTOR_SPEED)
+
+            # Remember the reading, including when the block is removed.
+            last_color = detected_color
+
+        # Give the sensor time before checking again.
+        await runloop.sleep_ms(100)
+
+runloop.run(main())</code></pre>
+        </div>
+
+    </div>
+    <!-- End Project Information -->
+
+</body>
+</html>
